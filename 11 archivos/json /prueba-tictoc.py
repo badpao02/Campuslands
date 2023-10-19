@@ -6,7 +6,7 @@ def inicializar_juego():
     juego_en_curso = True
     jugadores = [[input("Jugador 1: "),"X"], [input("Jugador 2: "),"O"]]
     jugador_actual = random.randint(0, 1)
-    tablero = [["1","2","3"],["4","5","6"],["7","8","9"]]
+    tablero = [["-","-","-"],["-","-","-"],["-","-","-"]]
     return juego_en_curso, jugadores, jugador_actual, tablero
 
 
