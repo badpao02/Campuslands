@@ -104,5 +104,5 @@ while juegoEnCurso:
 
 
 
-
+#https://javierportales.com/cursos/python/juego-3-en-raya-tic-tac-toe/
 
