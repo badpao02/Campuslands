@@ -2,7 +2,6 @@ import random
 import time
 import json
 
-# Cargar información de jugadores
 def cargar_info_jugadores():
     try:
         with open('11 archivos/json /proyecto/info_jugadores.json', 'r') as file:
@@ -10,12 +9,12 @@ def cargar_info_jugadores():
     except FileNotFoundError:
         return {}
 
-# Guardar información de jugadores
+
 def guardar_info_jugadores(info):
     with open('11 archivos/json /proyecto/info_jugadores.json', 'w') as file:
         json.dump(info, file)
 
-# Cargar tabla de calificaciones
+
 def cargar_tabla():
     try:
         with open('tabla_calificaciones.json', 'r') as file:
@@ -23,12 +22,12 @@ def cargar_tabla():
     except FileNotFoundError:
         return []
 
-# Guardar tabla de calificaciones
+
 def guardar_tabla(tabla):
     with open('tabla_calificaciones.json', 'w') as file:
         json.dump(tabla, file)
 
-# Comprueba si el tablero está completo, devuelve True o False
+
 def tablero_completo(tablero_actual):
     for linea in tablero_actual:
         for celda in linea:
@@ -36,7 +35,7 @@ def tablero_completo(tablero_actual):
                 return False
     return True
 
-# Actualiza el tablero con la acción del jugador actual
+
 def actualizar_tablero(jugador, coordenada_fila, coordenada_columna, tablero_actual):
     while tablero_actual[coordenada_fila - 1][coordenada_columna - 1] != '-':
         print("¡Casilla ocupada! Elige otra posición.")
@@ -45,7 +44,7 @@ def actualizar_tablero(jugador, coordenada_fila, coordenada_columna, tablero_act
     tablero_actual[coordenada_fila - 1][coordenada_columna - 1] = jugador[1]
     return tablero_actual
 
-# Comprueba si ha ganado el jugador actual, devuelve True o False
+
 def comprobar_ganador(jugador, tablero_actual):
 
     # Comprueba por filas
@@ -58,7 +57,7 @@ def comprobar_ganador(jugador, tablero_actual):
         if ganador:
             return ganador
 
-    # Comprueba por columnas
+   
     for i in range(3):
         ganador = True
         for x in range(3):
@@ -68,7 +67,7 @@ def comprobar_ganador(jugador, tablero_actual):
         if ganador:
             return ganador
 
-    # Comprueba por diagonales
+    
     ganador = True
     for i in range(3):
         if tablero_actual[i][i] != jugador[1]:
@@ -86,7 +85,7 @@ def comprobar_ganador(jugador, tablero_actual):
     
     return False
 
-# Función que inicializa los valores del juego
+
 def inicializar_juego():
     print("\n\n1. escriba los nombres de los participantes ")
     juego_en_curso = True
@@ -96,10 +95,9 @@ def inicializar_juego():
                ["-","-","-"],
                ["-","-","-"]]
     movimientos = 0
-    tiempo_inicio = time.time()  # Registra el tiempo al inicio del juego
+    tiempo_inicio = time.time() 
     return juego_en_curso, jugadores, jugador_actual, tablero, movimientos, tiempo_inicio
 
-# (El resto del código permanece igual)
 
 while True:
     juego_en_curso, jugadores, jugador_actual, tablero, movimientos, tiempo_inicio = inicializar_juego()
@@ -121,11 +119,11 @@ while True:
         coordenada_fila, coordenada_columna = list(map(int, input("Elige primero fila luego columnas: ")))
         
         tablero = actualizar_tablero(jugadores[jugador_actual], coordenada_fila, coordenada_columna, tablero)
-        movimientos += 1  # Incrementa los movimientos
+        movimientos += 1  
 
         if comprobar_ganador(jugadores[jugador_actual], tablero):
             juego_en_curso = False
-            tiempo_fin = time.time()  # Registra el tiempo al final del juego
+            tiempo_fin = time.time()  
             tiempo_transcurrido = tiempo_fin - tiempo_inicio
             print("0 1 2 3")
             coordenadas_vertical = 1
@@ -135,7 +133,7 @@ while True:
             print("Ganador: ", jugadores[jugador_actual][0])
             print(f"El juego duró {tiempo_transcurrido:.2f} segundos y se realizaron {movimientos} movimientos.")
             
-            # Guardar jugador ganador
+           
             tabla_calificaciones = cargar_tabla()
             tabla_calificaciones.append({
                 "Nombre": jugadores[jugador_actual][0],
@@ -144,7 +142,7 @@ while True:
             })
             guardar_tabla(sorted(tabla_calificaciones, key=lambda x: (x["Movimientos"], x["Tiempo"])))
 
-            # Actualizar información de jugadores
+            
             info_jugadores = cargar_info_jugadores()
             jugador_ganador = jugadores[jugador_actual][0]
             if jugador_ganador in info_jugadores:
@@ -161,19 +159,19 @@ while True:
 
         jugador_actual = 1 if jugador_actual == 0 else 0
 
-    # Preguntar si quieren jugar de nuevo
+   
     jugar_de_nuevo = input("¿Quieres jugar de nuevo? (s/n): ")
     if jugar_de_nuevo.lower() != 's':
         break
 
-# Mostrar tabla de clasificaciones
+
 tabla_calificaciones = cargar_tabla()
 print("\nTabla de Clasificaciones:")
 print("Nombre\tMovimientos\tTiempo")
 for jugador in tabla_calificaciones:
     print(f"{jugador['Nombre']}\t{jugador['Movimientos']}\t\t{jugador['Tiempo']:.2f}")
 
-# Mostrar información de jugadores
+
 info_jugadores = cargar_info_jugadores()
 print("\nInformación de Jugadores:")
 print("Nombre\tVictorias\tTiempo Total\tIntentos Total")
